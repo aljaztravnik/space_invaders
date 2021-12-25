@@ -1,0 +1,56 @@
+canvas
+{
+	margin: auto;
+	display: block;
+	position: fixed;
+	top: 20%;
+	left: 35%;
+}
+
+
+body
+{
+	background-color: #105c05;
+	color: #ffffff;
+	font-size: 200%;
+	font-family: "Helvetica";
+}
+
+table
+{
+	text-align: right;
+}
+
+.tockeC1
+{
+	padding-left: 15%;
+	position: fixed;
+	top: 40%;
+}
+
+.tockeC2
+{
+	padding-left: 15%;
+	position: fixed;
+	top: 45%;
+}
+
+.changeKeybind
+{
+	width: 45px;
+	height: 45px;
+}
+
+#settingsImg
+{
+	position: fixed;
+	top:40%;
+	left:75%;
+}
+
+#backImg
+{
+	position: fixed;
+	top:3%;
+	left:80%;
+}
