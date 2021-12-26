@@ -20,6 +20,8 @@ class Bullet
 	}
 }
 
+let audio = new Audio('music.mp3');
+audio.play();
 let canvas;
 let ctx;
 let buffer;
