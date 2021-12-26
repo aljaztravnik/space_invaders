@@ -25,7 +25,7 @@ form
 {
 	width: 30%;
 	position: fixed;
-	left: 20%;
+	left: 10%;
 	top: 30%;
 }
 
@@ -58,30 +58,30 @@ form
 #startImg
 {
 	position: fixed;
-	top:50%;
-	left:50%;
+	top: 50%;
+	left: 45%;
 }
 
 #settingsImg
 {
 	position: fixed;
-	top:30%;
-	left:65%;
+	top: 30%;
+	left: 55%;
 }
 
 #leaderboard
 {
 	position: fixed;
-	top:40%;
-	left:75%;
+	top: 40%;
+	left: 75%;
 	text-align: center;
 }
 
 #backImg
 {
 	position: fixed;
-	top:3%;
-	left:80%;
+	top: 3%;
+	left: 80%;
 }
 
 input[type=text]
