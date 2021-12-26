@@ -6,18 +6,17 @@
 		<meta charset="UTF-8">
 	</head>
 
-	<body onload="init()">
+	<body onload="initVars()">
 		
-		<audio controls loop>
-			<source src="music.mp3" type="audio/mpeg">
-			Your browser does not support the audio tag.
-		</audio> 
-		<p class="tockeC1">Points: <span id="tocke"></span></p>
-		<p class="tockeC2">Record: <span id="rekord"></span></p>
-		<a href="settings_page.html">
-			<img src="settings.png" id="settingsImg" width="100" height="100">
-		</a>
-		<script src="game.js"></script>
+		<form>
+			<fieldset>
+				<label for="uname">Enter your username</label>
+				<input type="text" id="uname" name="uname" placeholder="Janez">
+			</fieldset>
+		</form>
+		<img src="settings.png" id="settingsImg" width="100" height="100">
+        <img src="start.png" id="startImg" width="100" height="100">
+		<script src="index_script.js"></script>
 
 	</body>
 </html>

@@ -10,7 +10,7 @@ canvas
 
 body
 {
-	background-color: #105c05;
+	background-color: #21723c;
 	color: #ffffff;
 	font-size: 200%;
 	font-family: "Helvetica";
@@ -19,6 +19,14 @@ body
 table
 {
 	text-align: right;
+}
+
+form
+{
+	width: 30%;
+	position: fixed;
+	left: 20%;
+	top: 30%;
 }
 
 .tockeC1
@@ -41,11 +49,32 @@ table
 	height: 45px;
 }
 
+.leaderboardSpacing
+{
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+#startImg
+{
+	position: fixed;
+	top:50%;
+	left:50%;
+}
+
 #settingsImg
+{
+	position: fixed;
+	top:30%;
+	left:65%;
+}
+
+#leaderboard
 {
 	position: fixed;
 	top:40%;
 	left:75%;
+	text-align: center;
 }
 
 #backImg
@@ -53,4 +82,15 @@ table
 	position: fixed;
 	top:3%;
 	left:80%;
+}
+
+input[type=text]
+{
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border: none;
+	background-color: white;
+	color: black;
 }

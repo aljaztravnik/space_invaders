@@ -24,11 +24,11 @@ let canvas;
 let ctx;
 let buffer;
 let pritisnjeneTipke = [];
-let playerKeys = {"left": "a", "right": "d", "shoot": " "};
+let playerData = {"left": 97, "right": 100, "shoot": 32, "uname": "Janez"};
 let player;
 let bullets = [];
 let enemies = [];
-let enemyDir = 1;
+let enemyDir = 1; let killed = 0;
 let dol = false;
 let tocke = 0; let rekord = 0;
 
@@ -37,7 +37,7 @@ function initKeybinds()
 	let queryString = new URLSearchParams(document.URL.split('?')[1]); // read url and set keybinds
 
 	for (let pair of queryString.entries()) // pair[0] - key, pair[1] - value
-	   playerKeys[pair[0]] = pair[1];
+	   playerData[pair[0]] = pair[1];
 }
 
 function initBackground(){
@@ -92,9 +92,9 @@ function playerInput(e)
 	console.log(e.key);
 	pritisnjeneTipke[e.key.charCodeAt()] = e.key.charCodeAt();
 	pritisnjeneTipke.forEach(tipka => {
-		if(tipka == playerKeys["left"]) player.x -= 5; // left
-		if(tipka == playerKeys["right"]) player.x += 5; // right
-		if(tipka == playerKeys["shoot"]) bullets.push(new Bullet(player.x, player.y)); // shoot
+		if(tipka == playerData["left"] && (player.x - 20) - 5 >= 0) player.x -= 5; // left
+		if(tipka == playerData["right"] && (player.x + 20) + 5 <= canvas.width) player.x += 5; // right
+		if(tipka == playerData["shoot"]) bullets.push(new Bullet(player.x, player.y)); // shoot
 	});
 }
 
@@ -147,6 +147,7 @@ function updateBullets()
 				if ((enemies[j][k].x - bullets[i].x > ((enemies[j][k].w+5)*(-1)) && enemies[j][k].x - bullets[i].x < 5) && (enemies[j][k].y - bullets[i].y > ((enemies[j][k].h+5)*(-1)) && enemies[j][k].y - bullets[i].y < 5)) {
 					bullets.splice(i, 1);
 					enemies[j].splice(k, 1);
+					killed++;
 					console.log("enemy collision");
 					tocke += 10;
 				}
@@ -196,6 +197,25 @@ function updateInterface()
 	tockeSpan.innerHTML = tocke.toString();
 }
 
+function checkEnd()
+{
+	if(killed == 30)
+	{
+		console.log("KONEC");
+		let leaderboard = document.getElementById("leaderboard");
+		let tr = document.createElement("tr");
+		let tdName = document.createElement("td");
+		let tdScore = document.createElement("td");
+		tdName.innerHTML = playerData["uname"];
+		tdScore.innerHTML = rekord;
+		tr.appendChild(tdName);
+		tr.appendChild(tdScore);
+		leaderboard.appendChild(tr);
+		return true;
+	}
+	return false;
+}
+
 function draw()
 {
 	drawBackground();
@@ -204,6 +224,7 @@ function draw()
 	drawEnemies();
 	enemyMovement();
 	updateInterface();
+	if(checkEnd() == true) return;
 	window.requestAnimationFrame(draw);
 }
 
