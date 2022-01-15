@@ -26,8 +26,8 @@ let canvas;
 let ctx;
 let buffer;
 let pritisnjeneTipke = [];
-let playerData = {"left": 97, "right": 100, "shoot": 32, "uname": "Janez"};
-let player;
+let playerData = {"left": 97, "right": 100, "shoot": 115, "uname": "Janez", "left1": 106, "right1": 108, "shoot1": 107, "uname1": "Micka", "coOp": -1};
+let player; let player2;
 let bullets = [];
 let enemies = [];
 let enemyDir = 1; let killed = 0;
@@ -86,31 +86,34 @@ function initElements()
 function drawBackground()
 {
 	ctx.fillStyle = "#000000";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(0, 0, canvas.width, canvas.height);                  
 }
 
 function playerInput(e)
 {
-	console.log(e.key);
 	pritisnjeneTipke[e.key.charCodeAt()] = e.key.charCodeAt();
 	pritisnjeneTipke.forEach(tipka => {
 		if(tipka == playerData["left"] && (player.x - 20) - 5 >= 0) player.x -= 5; // left
 		if(tipka == playerData["right"] && (player.x + 20) + 5 <= canvas.width) player.x += 5; // right
 		if(tipka == playerData["shoot"]) bullets.push(new Bullet(player.x, player.y)); // shoot
+
+		if(playerData["coOp"] == 1)
+		{
+			if(tipka == playerData["left1"] && (player2.x - 20) - 5 >= 0) player2.x -= 5; // left
+			if(tipka == playerData["right1"] && (player2.x + 20) + 5 <= canvas.width) player2.x += 5; // right
+			if(tipka == playerData["shoot1"]) bullets.push(new Bullet(player2.x, player2.y)); // shoot
+		}
 	});
 }
 
 function drawPlayer()
 {
-	buffer.drawImage(player.ship, player.x-player.w/2, player.y, player.w, player.h)
+	buffer.drawImage(player.ship, player.x - player.w/2, player.y, player.w, player.h);
+	if(playerData["coOp"] == 1) buffer.drawImage(player2.ship, player2.x - player2.w/2, player2.y, player2.w, player2.h);
 }
 
 function drawBullets()
 {
-	//skips function if no bullets exist
-	if(bullets.length == 0)
-		return;
-
 	//draw all still existing bullets
 	for(let i = 0; i < bullets.length; i++){
 		ctx.fillStyle = "#05ff48"; // green
@@ -143,7 +146,7 @@ function updateBullets()
 			console.log("offscreen");
 		}
 	}
-	for (let j = 0; j < enemies.length; j++) // enemy bullet collision
+	for (let j = 0; j < enemies.length; j++) // enemy-bullet collision
 		for (let k = 0; k < enemies[j].length; k++)
 			for(let i = 0; i < bullets.length && k < enemies[j].length; i++)
 				if ((enemies[j][k].x - bullets[i].x > ((enemies[j][k].w+5)*(-1)) && enemies[j][k].x - bullets[i].x < 5) && (enemies[j][k].y - bullets[i].y > ((enemies[j][k].h+5)*(-1)) && enemies[j][k].y - bullets[i].y < 5)) {
@@ -243,7 +246,7 @@ function init()
 	initBackground();
 	initEnemies();
 	player = new Ship(canvas.width/2, canvas.height-30, 40, 20, "player.png");
-
+	player2 = new Ship(canvas.width/2 + 45, canvas.height-30, 40, 20, "player.png");
 	//start game
 	draw();
 }

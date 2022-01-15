@@ -5,10 +5,26 @@
 
 // spremeni left right in shoot v array in hkrati tudi booleane za njih
 
-let action = [document.getElementById("moveLeft"), document.getElementById("moveRight"), document.getElementById("shoot"), "Janez"];
-let changeButton = [document.getElementById("changeLeft"), document.getElementById("changeRight"), document.getElementById("changeShoot")];
-let awaitKey = [false, false, false];
+let action = [document.getElementById("moveLeft"),
+              document.getElementById("moveRight"),
+              document.getElementById("shoot"),
+              "Janez",
+              document.getElementById("moveLeft1"),
+              document.getElementById("moveRight1"),
+              document.getElementById("shoot1"),
+              "Micka",
+              -1
+];
+let changeButton = [document.getElementById("changeLeft"),
+                    document.getElementById("changeRight"),
+                    document.getElementById("changeShoot"),
+                    document.getElementById("changeLeft1"),
+                    document.getElementById("changeRight1"),
+                    document.getElementById("changeShoot1")
+];
+let awaitKey = [false, false, false, false, false, false];
 let back = document.getElementById("backImg");
+let checker = podanArr => podanArr.every(v => v === false); // preveri, če so vsi elementi v arrayu false
 
 function initVars()
 {
@@ -17,34 +33,56 @@ function initVars()
 
 	for (let pair of queryString.entries())
     {
-        if(i == 3) action[i] = pair[1];
+        if(i == 3 || i == 7 || i == 8) action[i] = pair[1];
         else action[i].innerHTML = String.fromCharCode(pair[1]);
         i++;
     }
 }
 
 document.addEventListener('keydown', (e) => {
-    for(let i = 0; i < awaitKey.length; i++)
+    for(let i = 0; i < 3; i++)
         if(awaitKey[i] == true)
         {
             action[i].innerHTML = e.key;
             awaitKey[i] = false;
         }
+    for(let i = 3; i < awaitKey.length; i++)
+        if(awaitKey[i] == true)
+        {
+            action[i+1].innerHTML = e.key;
+            console.log(e.keyCode);
+            awaitKey[i] = false;
+        }
 });
 
-changeButton[0].addEventListener("click", () => {
-    if(awaitKey[1] == false && awaitKey[2] == false) awaitKey[0] = true;
+function afsd(st)
+{
+    if(checker(awaitKey) == true) awaitKey[st] = true;
     else console.log("DOKONCAJ PREJSNJI VNOS!");
+}
+
+changeButton[0].addEventListener("click", () => {
+    afsd(0);
 });
 
 changeButton[1].addEventListener("click", () => {
-    if(awaitKey[0] == false && awaitKey[2] == false) awaitKey[1] = true;
-    else console.log("DOKONCAJ PREJSNJI VNOS!");
+    afsd(1);
 });
 
 changeButton[2].addEventListener("click", () => {
-    if(awaitKey[0] == false && awaitKey[1] == false) awaitKey[2] = true;
-    else console.log("DOKONCAJ PREJSNJI VNOS!");
+    afsd(2);
+});
+
+changeButton[3].addEventListener("click", () => {
+    afsd(3);
+});
+
+changeButton[4].addEventListener("click", () => {
+    afsd(4);
+});
+
+changeButton[5].addEventListener("click", () => {
+    afsd(5);
 });
 
 back.addEventListener("click", () => {
@@ -52,6 +90,11 @@ back.addEventListener("click", () => {
     url += "left=" + action[0].innerHTML.charCodeAt() + "&";
     url += "right=" + action[1].innerHTML.charCodeAt() + "&";
     url += "shoot=" + action[2].innerHTML.charCodeAt() + "&";
-    url += "uname=" + action[3];
+    url += "uname=" + action[3] + "&";
+    url += "left1=" + action[4].innerHTML.charCodeAt() + "&";
+    url += "right1=" + action[5].innerHTML.charCodeAt() + "&";
+    url += "shoot1=" + action[6].innerHTML.charCodeAt() + "&";
+    url += "uname1=" + action[7] + "&";
+    url += "coOp=" + action[8];
     window.location = url;
 });
