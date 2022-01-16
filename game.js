@@ -33,11 +33,34 @@ let enemies = [];
 let enemyDir = 1; let killed = 0;
 let dol = false;
 let tocke = 0; let rekord = 0;
-let lives = 3;
+let lives = 3; let restarted = false;
 let frameCount = 0;
 let tockeSpan = document.getElementById("tocke");
 let rekordSpan = document.getElementById("rekord");
 let zivljenjaSpan = document.getElementById("zivljenja");
+let restartImg = document.createElement("img");
+restartImg.src = "restart.png";
+restartImg.width = 100;
+restartImg.height = 100;
+restartImg.id = "restartID";
+
+restartImg.addEventListener("click", () => {
+	pritisnjeneTipke = [];
+	bullets = []; enemyBullets = [];
+	enemies = [];
+	enemyDir = 1; killed = 0;
+	dol = false;
+	tocke = 0;
+	lives = 3;
+	frameCount = 0;
+	restarted = true;
+	initEnemies();
+	player = new Ship(canvas.width/2, canvas.height-30, 40, 20, "player.png");
+	player2 = new Ship(canvas.width/2 + 45, canvas.height-30, 40, 20, "player.png");
+	let el = document.getElementById('restartID');
+	el.remove();
+	draw();
+});
 
 function initKeybinds()
 {
@@ -177,7 +200,8 @@ function updateBullets()
 				}
 	for(let i = 0; i < enemyBullets.length; i++)
 	{
-		if((enemyBullets[i].y >= (canvas.height - player.h)) && (enemyBullets[i].x - player.x >= 0) && (enemyBullets[i].x - player.x <= player.w))
+		if(((enemyBullets[i].y >= (canvas.height - player.h)) && (enemyBullets[i].x - player.x >= 0) && (enemyBullets[i].x - player.x <= player.w)) ||
+			((enemyBullets[i].y >= (canvas.height - player2.h)) && (enemyBullets[i].x - player2.x >= 0) && (enemyBullets[i].x - player2.x <= player2.w)))
 		{
 			enemyBullets.splice(i, 1);
 			lives--;
@@ -259,6 +283,7 @@ function checkEnd()
 		tr.appendChild(tdName);
 		tr.appendChild(tdScore);
 		leaderboard.appendChild(tr);
+		document.body.appendChild(restartImg);
 		return true;
 	}
 	return false;
@@ -299,6 +324,3 @@ function init()
 	//start game
 	draw();
 }
-
-// ENEMY: 2 large, 2 medium, 2 small, včasih ufo
-// SLIKE: https://spaceinvaders.fandom.com/wiki/Space_Invaders_wiki

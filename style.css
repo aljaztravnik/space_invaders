@@ -50,6 +50,13 @@ form
 	top: 50%;
 }
 
+#restartID
+{
+	position: fixed;
+	top: 80%;
+	left: 47%;
+}
+
 .changeKeybind
 {
 	width: 45px;

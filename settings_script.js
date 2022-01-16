@@ -61,29 +61,12 @@ function afsd(st)
     else console.log("DOKONCAJ PREJSNJI VNOS!");
 }
 
-changeButton[0].addEventListener("click", () => {
-    afsd(0);
-});
-
-changeButton[1].addEventListener("click", () => {
-    afsd(1);
-});
-
-changeButton[2].addEventListener("click", () => {
-    afsd(2);
-});
-
-changeButton[3].addEventListener("click", () => {
-    afsd(3);
-});
-
-changeButton[4].addEventListener("click", () => {
-    afsd(4);
-});
-
-changeButton[5].addEventListener("click", () => {
-    afsd(5);
-});
+for(let i = 0; i < 6; i++)
+{
+    changeButton[i].addEventListener("click", () => {
+        afsd(i);
+    });
+}
 
 back.addEventListener("click", () => {
     let url = "index.html?";
