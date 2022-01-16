@@ -28,11 +28,16 @@ let buffer;
 let pritisnjeneTipke = [];
 let playerData = {"left": 97, "right": 100, "shoot": 115, "uname": "Janez", "left1": 106, "right1": 108, "shoot1": 107, "uname1": "Micka", "coOp": -1};
 let player; let player2;
-let bullets = [];
+let bullets = []; let enemyBullets = [];
 let enemies = [];
 let enemyDir = 1; let killed = 0;
 let dol = false;
 let tocke = 0; let rekord = 0;
+let lives = 3;
+let frameCount = 0;
+let tockeSpan = document.getElementById("tocke");
+let rekordSpan = document.getElementById("rekord");
+let zivljenjaSpan = document.getElementById("zivljenja");
 
 function initKeybinds()
 {
@@ -121,6 +126,12 @@ function drawBullets()
 		buffer.arc(bullets[i].x, bullets[i].y, 2, 0, 2*Math.PI);
 		ctx.fill();
 	}
+	for(let i = 0; i < enemyBullets.length; i++){
+		ctx.fillStyle = "#de1f1f"; // red
+		buffer.beginPath();
+		buffer.arc(enemyBullets[i].x, enemyBullets[i].y, 3, 0, 2*Math.PI);
+		ctx.fill();
+	}
 	updateBullets();
 }
 
@@ -146,6 +157,14 @@ function updateBullets()
 			console.log("offscreen");
 		}
 	}
+	for(let i = 0; i < enemyBullets.length; i++){
+		enemyBullets[i].y += 2;
+		if(enemyBullets[i].y >= canvas.height) //if bullet is off-screen then remove it from array
+		{
+			enemyBullets.splice(i, 1);
+			console.log("offscreen2");
+		}
+	}
 	for (let j = 0; j < enemies.length; j++) // enemy-bullet collision
 		for (let k = 0; k < enemies[j].length; k++)
 			for(let i = 0; i < bullets.length && k < enemies[j].length; i++)
@@ -156,6 +175,15 @@ function updateBullets()
 					console.log("enemy collision");
 					tocke += 10;
 				}
+	for(let i = 0; i < enemyBullets.length; i++)
+	{
+		if((enemyBullets[i].y >= (canvas.height - player.h)) && (enemyBullets[i].x - player.x >= 0) && (enemyBullets[i].x - player.x <= player.w))
+		{
+			enemyBullets.splice(i, 1);
+			lives--;
+			console.log("PLAYER ZADET");
+		}
+	}
 }
 
 function enemyMovement()
@@ -188,23 +216,38 @@ function enemyMovement()
 			enemies[i][j].x += enemyDir;
 }
 
+function generateEnemyBullet()
+{
+	let index;
+	console.log("ENEMIES LENGTH: ", enemies.length);
+	for(let i = enemies.length-1; i >= 0; i--)
+	{
+		if(enemies[i].length > 0)
+		{
+			if(enemies[i].length == 1) index = 0;
+			else index = Math.floor(Math.random() * enemies[i].length); // dobi index enemy-a iz katerega bo sel bullet
+			console.log("Enemy bullet index: ", index);
+			enemyBullets.push(new Bullet(enemies[i][index].x, enemies[i][index].y + enemies[i][index].h)); // shoot
+			break;
+		}
+	}
+}
+
 function updateInterface()
 {
-	let tockeSpan = document.getElementById("tocke");
-	let rekordSpan = document.getElementById("rekord");
-
-	if(tocke >= rekord)
+	zivljenjaSpan.innerHTML = lives.toString();
+	if(tocke > rekord)
 	{
 		rekordSpan.innerHTML = tocke.toString();
 		rekord = tocke;
 	}
-	else rekordSpan.innerHTML = tocke.toString();
+	else rekordSpan.innerHTML = rekord.toString();
 	tockeSpan.innerHTML = tocke.toString();
 }
 
 function checkEnd()
 {
-	if(killed == 30)
+	if(killed == 30 || lives <= 0)
 	{
 		console.log("KONEC");
 		let leaderboard = document.getElementById("leaderboard");
@@ -223,11 +266,17 @@ function checkEnd()
 
 function draw()
 {
+	frameCount++;
 	drawBackground();
 	drawPlayer();
 	drawBullets();
 	drawEnemies();
 	enemyMovement();
+	if(frameCount == 120) {
+		generateEnemyBullet();
+		tocke -= 10;
+		frameCount = 0;	
+	}
 	updateInterface();
 	if(checkEnd() == true) return;
 	window.requestAnimationFrame(draw);

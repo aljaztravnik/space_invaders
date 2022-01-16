@@ -29,18 +29,25 @@ form
 	top: 20%;
 }
 
-.tockeC1
+#tockeID1
 {
 	padding-left: 15%;
 	position: fixed;
 	top: 40%;
 }
 
-.tockeC2
+#tockeID2
 {
 	padding-left: 15%;
 	position: fixed;
 	top: 45%;
+}
+
+#zivljenjaID
+{
+	padding-left: 15%;
+	position: fixed;
+	top: 50%;
 }
 
 .changeKeybind
