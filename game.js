@@ -32,7 +32,7 @@ let bullets = []; let enemyBullets = [];
 let enemies = [];
 let enemyDir = 1; let killed = 0;
 let dol = false;
-let tocke = 0; let rekord = 0;
+let tocke = 0; let rekord = 0; let storedRekord;
 let lives = 3; let restarted = false;
 let frameCount = 0;
 let tockeSpan = document.getElementById("tocke");
@@ -264,6 +264,7 @@ function updateInterface()
 	{
 		rekordSpan.innerHTML = tocke.toString();
 		rekord = tocke;
+		localStorage.setItem("rekord", rekord)
 	}
 	else rekordSpan.innerHTML = rekord.toString();
 	tockeSpan.innerHTML = tocke.toString();
@@ -279,7 +280,7 @@ function checkEnd()
 		let tdName = document.createElement("td");
 		let tdScore = document.createElement("td");
 		tdName.innerHTML = playerData["uname"];
-		tdScore.innerHTML = rekord;
+		tdScore.innerHTML = tocke;
 		tr.appendChild(tdName);
 		tr.appendChild(tdScore);
 		leaderboard.appendChild(tr);
@@ -321,6 +322,14 @@ function init()
 	initEnemies();
 	player = new Ship(canvas.width/2, canvas.height-30, 40, 20, "player.png");
 	player2 = new Ship(canvas.width/2 + 45, canvas.height-30, 40, 20, "player.png");
+
+	if(localStorage.getItem("rekord") === null){
+        localStorage.setItem("rekord", 0);
+    }else{
+		rekord = localStorage.getItem("rekord");
+		rekordSpan.innerHTML = rekord.toString();
+	}
+
 	//start game
 	draw();
 }

@@ -14,11 +14,16 @@ function initVars()
 }
 
 start.addEventListener("click", () => {
+    let uname = document.getElementById("uname").value;
+    if(uname.length == 0){
+        alert("Please enter your username.")
+        return false;
+    }
     let url = "game_page.html?";
     url += "left=" + playerData["left"] + "&";
     url += "right=" + playerData["right"] + "&";
     url += "shoot=" + playerData["shoot"] + "&";
-    url += "uname=" + playerData["uname"];
+    url += "uname=" + uname;
     if(playerData["coOp"] == 1)
     {
         url += "&left1=" + playerData["left1"] + "&";
